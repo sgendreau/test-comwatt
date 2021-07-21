@@ -26,6 +26,7 @@ class RefTypeGenre
     private $libelle;
 
     /**
+     * @Gedmo\Slug(fields={"libelle"})
      * @ORM\Column(type="string", length=50)
      */
     private $slug;
@@ -83,13 +84,6 @@ class RefTypeGenre
     public function getSlug(): ?string
     {
         return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
     }
 
     public function getGenreParent(): ?self

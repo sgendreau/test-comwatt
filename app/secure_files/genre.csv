@@ -1,0 +1,19 @@
+id,libelle,parent
+1,"Narratif"
+2,"Autobiographi",1
+3,"Nouvelle",1
+4,"Conte",1
+5,"Fable",1
+6,"Merveilleux",1
+7,"Fantastique",1
+8,"Roman",1
+9,"Epistolaire",1
+10,"Poésie"
+11,"Lyrique",10
+12,"Texte poétique",10
+13,"Théatre"
+14,"Tragédie",13
+15,"Comédie",13
+16,"Drame",13
+17,"Argumentatif"
+18,"Argumentation",17
