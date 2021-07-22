@@ -1,0 +1,57 @@
+version: '3'
+services:
+  db:
+    container_name: db
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: book
+      POSTGRES_USER: read
+      POSTGRES_DB: app
+      TZ: Europe/Paris
+      PGTZ: Europe/Paris
+    ports:
+      - 3002:5432
+  php:
+    container_name: php
+    build:
+      context: ./docker/php
+    environment:
+      - APP_ENV=${APP_ENV:-dev}
+      - APP_SECRET=${APP_SECRET}
+      - DATABASE_URL=${DATABASE_URL}
+    volumes:
+      - ./app:/var/www
+    depends_on:
+      - db
+  nginx:
+    container_name: nginx
+    build:
+      context: ./docker/nginx
+    ports:
+      - 3001:80
+      - 443:433
+    volumes:
+      - ./app:/var/www
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/sites/:/etc/nginx/sites-available
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d
+      - ./logs:/var/log
+    depends_on:
+      - php
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    environment:
+      ADMINER_DESIGN: dark-mode
+      ADMINER_DEFAULT_DB_DRIVER: postgresql
+      ADMINER_DEFAULT_DB_HOST: db
+      ADMINER_DEFAULT_DB_NAME: app
+      ADMINER_DEFAULT_SERVER: db
+      ADMINER_PLUGINS: tables-filter tinymce
+    volumes:
+      - ./docker/adminer:/var/www/html/designs/dark-mode
+    ports:
+      - 3003:8080
+
+
