@@ -9,12 +9,15 @@
 /app/vendor/
 ###< symfony/framework-bundle ###
 
-###> symfony/phpunit-bridge ###
-/app/.phpunit.result.cache
-/app/phpunit.xml
-###< symfony/phpunit-bridge ###
-
 ###> phpunit/phpunit ###
 /app/phpunit.xml
 /app/.phpunit.result.cache
 ###< phpunit/phpunit ###
+
+###> config ide
+.idea/
+###< config ide
+
+###> logs nginx
+/logs/nginx/*.log
+###< logs nginx
