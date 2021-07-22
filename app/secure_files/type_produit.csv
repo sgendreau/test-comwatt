@@ -1,4 +1,4 @@
-id,libelle
-1,"Papier"
-2,"Electronique"
-3,"CD à écouter"
+uuid,libelle
+27866e6d-5796-4029-98d9-7158d4bb71ad,"Papier"
+0a312f90-c5ce-4876-8e39-2911009299e3,"Electronique"
+7a63bafd-d82e-44ce-b1e4-4156854f93df,"CD à écouter"

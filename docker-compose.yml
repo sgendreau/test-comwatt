@@ -19,7 +19,7 @@ services:
     environment:
       - APP_ENV=${APP_ENV:-dev}
       - APP_SECRET=${APP_SECRET}
-      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL=postgresql://read:book@db/app?serverVersion=13&charset=utf8
     volumes:
       - ./app:/var/www
     depends_on:

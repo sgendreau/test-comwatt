@@ -46,13 +46,13 @@ class ImportTypeProduitCommand extends Command
     {
         ini_set('memory_limit', '-1');
         $output->writeln([
-            'DEBUT Import',
+            'DEBUT Import des types de produit',
             '============',
         ]);
 
         $csv = $this->importCsvService->parseCsv($this->csvParsingOptions);
         /*
-         * 0 : id
+         * 0 : uuid
          * 1 : libelle
          */
 
@@ -62,13 +62,14 @@ class ImportTypeProduitCommand extends Command
                 $lineExploded = explode(",", $line[0]);
 
 
-                $typeProduitExist = $this->em->getRepository(RefTypeProduit::class)->findOneBy(['id' => $lineExploded[0]]);
-                if(!$typeProduitExist){
+                $typeProduit = $this->em->getRepository(RefTypeProduit::class)->findOneBy(['uuid' => $lineExploded[0]]);
+                if(!$typeProduit){
                     $typeProduit = new RefTypeProduit();
-                    $typeProduit->setlibelle( $lineExploded[1]);
-
-                    $this->em->persist($typeProduit);
+                    $typeProduit->setUuid($lineExploded[0]);
                 }
+                $typeProduit->setlibelle( $lineExploded[1]);
+
+                $this->em->persist($typeProduit);
 
 
             } else {

@@ -2,46 +2,23 @@
 
 namespace App\Entity;
 
+use App\Helper\Orm\IdTrait;
+use App\Helper\Orm\LibelleTrait;
+use App\Helper\Orm\TimestampableTrait;
 use App\Repository\RefTypeProduitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass=RefTypeProduitRepository::class)
  */
 class RefTypeProduit
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="string", length=50)
-     */
-    private $libelle;
-
-    /**
-     * @Gedmo\Slug(fields={"libelle"})
-     * @ORM\Column(type="string", length=50)
-     */
-    private $slug;
-
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     * @Gedmo\Timestampable(on="create")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     * @Gedmo\Timestampable(on="update")
-     */
-    private $updatedAt;
+    use IdTrait;
+    use LibelleTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\ManyToMany(targetEntity=Produit::class, mappedBy="typeProduit")
@@ -50,53 +27,8 @@ class RefTypeProduit
 
     public function __construct()
     {
+        $this->uuid = Uuid::v4();
         $this->produits = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getLibelle(): ?string
-    {
-        return $this->libelle;
-    }
-
-    public function setLibelle(string $libelle): self
-    {
-        $this->libelle = $libelle;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
     }
 
     /**

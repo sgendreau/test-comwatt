@@ -2,23 +2,21 @@
 
 namespace App\Entity;
 
+use App\Helper\Orm\IdTrait;
+use App\Helper\Orm\TimestampableTrait;
 use App\Repository\ProduitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass=ProduitRepository::class)
  */
 class Produit
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use IdTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Column(type="string", length=255, name="title")
@@ -67,31 +65,15 @@ class Produit
     private $note;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
-     * @Gedmo\Timestampable(on="create")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     * @Gedmo\Timestampable(on="update")
-     */
-    private $updatedAt;
-
-    /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
     private $deletedAt;
 
     public function __construct()
     {
+        $this->uuid = Uuid::v4();
         $this->genres = new ArrayCollection();
         $this->typeProduit = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getTitre(): ?string
@@ -222,30 +204,6 @@ class Produit
     public function setNote(int $note): self
     {
         $this->note = $note;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }
