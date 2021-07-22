@@ -10,6 +10,16 @@ RUN apt-get update && \
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
+RUN curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh && \
+    bash nodesource_setup.sh && \
+    apt-get -y install nodejs
+
+RUN npm cache clean -f && \
+    npm install -g n && \
+    n stable
+
+RUN npm install -g yarn
+
 WORKDIR /var/www
 
 EXPOSE 9000
