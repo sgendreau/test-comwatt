@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+use App\Helper\Orm\IdTrait;
+use App\Helper\Orm\TimestampableTrait;
 use App\Repository\PaysRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass=PaysRepository::class)
@@ -16,12 +19,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Pays
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+
+    use IdTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Column(type="string", length=3, unique=true)
@@ -45,12 +45,8 @@ class Pays
 
     public function __construct()
     {
+        $this->uuid = Uuid::v4();
         $this->produits = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getAlpha3(): ?string

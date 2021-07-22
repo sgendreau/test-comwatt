@@ -46,7 +46,7 @@ class ImportPaysCommand extends Command
     {
         ini_set('memory_limit', '-1');
         $output->writeln([
-            'DEBUT Import',
+            'DEBUT Import des pays',
             '============',
         ]);
 
@@ -66,15 +66,15 @@ class ImportPaysCommand extends Command
                 $lineExploded = explode(",", $line[0]);
 
 
-                $paysExist = $this->em->getRepository(Pays::class)->findOneBy(['alpha3' => $lineExploded[3]]);
-                if(!$paysExist){
+                $pays = $this->em->getRepository(Pays::class)->findOneBy(['alpha3' => $lineExploded[3]]);
+                if(!$pays){
                     $pays = new Pays();
                     $pays->setAlpha3( $lineExploded[3]);
-                    $pays->setNomFr( $lineExploded[4]);
-                    $pays->setNomUk( $lineExploded[5]);
-
-                    $this->em->persist($pays);
                 }
+                $pays->setNomFr( $lineExploded[4]);
+                $pays->setNomUk( $lineExploded[5]);
+
+                $this->em->persist($pays);
 
 
             } else {

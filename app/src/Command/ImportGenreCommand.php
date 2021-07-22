@@ -18,7 +18,7 @@ class ImportGenreCommand extends Command
 
     private $csvParsingOptions = array(
         'finder_in' => 'secure_files',
-        'finder_name' => 'genres.csv',
+        'finder_name' => 'genre.csv',
         'ignoreFirstLine' => true
     );
 
@@ -46,35 +46,41 @@ class ImportGenreCommand extends Command
     {
         ini_set('memory_limit', '-1');
         $output->writeln([
-            'DEBUT Import',
+            'DEBUT Import des genres litteraires',
             '============',
         ]);
 
         $csv = $this->importCsvService->parseCsv($this->csvParsingOptions);
+        $genresParents = [];
         /*
-         * 0 : id
+         * 0 : uuid
          * 1 : libelle
-         * 2 : id parent
+         * 2 : uuid parent
          */
-
         foreach ($csv as $key => $line) {
             
             if (isset($line[0]) && isset($line[0][2])) {
                 $lineExploded = explode(",", $line[0]);
 
 
-                $genreExist = $this->em->getRepository(RefTypeGenre::class)->findOneBy(['id' => $lineExploded[0]]);
-                if(!$genreExist){
-                    $parent = null;
-                    if(isset($lineExploded[2])) {
-                        $parent = $this->em->getRepository(RefTypeGenre::class)->findOneBy(['id' => $lineExploded[2]]);
-                    }
+                $genre = $this->em->getRepository(RefTypeGenre::class)->findOneBy(['uuid' => $lineExploded[0]]);
+                if(!$genre){
                     $genre = new RefTypeGenre();
-                    $genre->setlibelle( $lineExploded[1]);
-                    $genre->setGenreParent( $parent);
-
-                    $this->em->persist($genre);
+                    $genre->setUuid($lineExploded[0]);
                 }
+                $parent = null;
+                if(isset($lineExploded[2])) {
+                    /** @var RefTypeGenre $parent */
+                    $parent = $this->em->getRepository(RefTypeGenre::class)->findOneBy(['uuid' => $lineExploded[2]]);
+                    if(!$parent) {
+                        $parent = $genresParents[$lineExploded[2]] ?? null;
+                    }
+                }
+                $genre->setlibelle( $lineExploded[1]);
+                $genre->setGenreParent( $parent);
+                $this->em->persist($genre);
+
+                $genresParents[(string) $genre->getUuid()] = $genre;
 
 
             } else {
