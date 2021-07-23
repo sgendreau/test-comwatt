@@ -12,6 +12,7 @@ class ProduitService {
             'uuid' => (string) $produit->getUuid(),
             'title' => $produit->getTitre(),
             'country' => $produit->getNationalite()->getAlpha3(),
+            'country_libelle' => $produit->getNationalite()->getNomFr(),
             'year' => $produit->getAnneeEdition(),
             'original_title' => $produit->getTitreOriginal(),
             'description' => $produit->getDescription(),

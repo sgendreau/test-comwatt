@@ -15,7 +15,7 @@ class ApiProduitController extends AbstractController
     #[Route('/api/produits', name: 'api_produits')]
     public function getProduits(EntityManagerInterface $entityManager, ProduitService $produitService): Response
     {
-        $produits = $entityManager->getRepository(Produit::class)->findAll();
+        $produits = $entityManager->getRepository(Produit::class)->findBy([], ['titre'=> 'ASC']);
 
         return new JsonResponse($produitService->transformProduits($produits));
     }

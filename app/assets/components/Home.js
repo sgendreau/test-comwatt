@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {Route, Switch, Redirect, withRouter} from "react-router-dom";
 import Nav from "./Nav";
 import NavItem from "./NavItem";
-import Produits from "./Produits";
-import Produit from "./Produit";
+import Products from "./Products";
+import Product from "./Product";
 
 class Home extends Component {
 
@@ -15,8 +15,8 @@ class Home extends Component {
                 </Nav>
                 <Switch>
                     <Redirect exact from={"/produits"} to={"/"} />
-                    <Route path={"/"} component={Produits} />
-                    <Route path="/produit/:uuid" handler={Produit} />
+                    <Route exact path={"/"} component={Products} />
+                    <Route path="/produit/:uuid" component={Product} />
                 </Switch>
             </div>
         )
