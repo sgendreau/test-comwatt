@@ -6,14 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProduitController extends AbstractController
+class DefaultController extends AbstractController
 {
-    #[Route('/', name: 'produit')]
+    #[Route('/{reactRouting?}', name: 'react', requirements: ['reactRouting' => '.+'], priority: -1)]
     public function index(): Response
     {
-
         return $this->render('base.html.twig', [
-            'controller_name' => 'ProduitController',
         ]);
     }
 }

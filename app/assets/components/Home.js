@@ -2,19 +2,21 @@ import React, {Component} from 'react';
 import {Route, Switch, Redirect, withRouter} from "react-router-dom";
 import Nav from "./Nav";
 import NavItem from "./NavItem";
-import Produits from "./Produits";
+import Products from "./Products";
+import Product from "./Product";
 
 class Home extends Component {
 
     render() {
         return(
             <div>
-                <Nav title={'rEarding'}>
+                <Nav title={'rEARding'}>
                     <NavItem link={'/'} text={'Produits'} />
                 </Nav>
                 <Switch>
                     <Redirect exact from={"/produits"} to={"/"} />
-                    <Route path={"/"} component={Produits} />
+                    <Route exact path={"/"} component={Products} />
+                    <Route path="/produit/:uuid" component={Product} />
                 </Switch>
             </div>
         )

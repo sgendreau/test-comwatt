@@ -160,6 +160,11 @@ class Produit
         return $this;
     }
 
+    public function getGenresLibelle(): string
+    {
+        return implode( ' ', $this->getGenres()->map(fn ($genre) => $genre->getLibelle())->toArray());
+    }
+
     /**
      * @return Collection|RefTypeProduit[]
      */
@@ -182,6 +187,11 @@ class Produit
         $this->typeProduit->removeElement($typeProduit);
 
         return $this;
+    }
+
+    public function getTypeProduitLibelle(): string
+    {
+        return implode(' ', $this->getTypeProduit()->map(fn ($type) => $type->getLibelle())->toArray());
     }
 
     public function getPrix(): ?float
