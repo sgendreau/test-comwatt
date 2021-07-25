@@ -14,7 +14,7 @@ class Product extends Component {
     }
 
     getProduit() {
-        fetch(`http://localhost:3001/api/produit/${this.state.uuid}`, {method: 'GET'})
+        fetch(`http://localhost:3001/api/product/${this.state.uuid}`, {method: 'GET'})
             .then(response => response.json())
             .then(
                 produit => {

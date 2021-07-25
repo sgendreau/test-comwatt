@@ -17,12 +17,12 @@ export default function Ranking({ranking}) {
 
     const starList = [...Array(5)].map((x, i) => {
         if(i <= nbStar-1) {
-            return (<Star color={color} />)
+            return (<Star color={color} key={i} />)
         } else if(halfStar) {
             halfStar = false;
-            return (<HalfStar color={color} />)
+            return (<HalfStar color={color} key={i} />)
         } else {
-            return (<EmptyStar color={color} />)
+            return (<EmptyStar color={color} key={i} />)
         }
     });
 

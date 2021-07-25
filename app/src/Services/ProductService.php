@@ -4,9 +4,9 @@ namespace App\Services;
 
 use App\Entity\Produit;
 
-class ProduitService {
+class ProductService {
 
-    public function transformProduit(Produit $produit): array
+    public function transformProduct(Produit $produit): array
     {
         return [
             'uuid' => (string) $produit->getUuid(),
@@ -23,11 +23,11 @@ class ProduitService {
         ];
     }
 
-    public function transformProduits(array $produits): array
+    public function transformProducts(array $produits): array
     {
         $result = [];
         foreach($produits as $produit) {
-            $result[] = $this->transformProduit($produit);
+            $result[] = $this->transformProduct($produit);
         }
         return $result;
     }
