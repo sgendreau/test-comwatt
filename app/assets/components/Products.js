@@ -12,8 +12,11 @@ class Products extends Component {
     }
 
     getProduits() {
-        fetch('http://localhost:3001/api/produits', {method: 'GET'})
+        fetch('http://localhost:3001/api/products', {method: 'GET'})
             .then(response => response.json())
+            .catch(err => {
+                console.log(err);
+            })
             .then(
                 produits => {
                     this.setState({ ...this.state, produits: produits, loading: false })

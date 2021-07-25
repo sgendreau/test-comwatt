@@ -8,7 +8,7 @@ export default function Nav({ title, children }) {
             <div className="mb-2 sm:mb-0">
                 <Link to="/" className="text-2xl no-underline text-grey-darkest hover:text-blue-dark">{title}</Link>
             </div>
-            <div>
+            <div className="flex">
                 {children}
             </div>
         </nav>
