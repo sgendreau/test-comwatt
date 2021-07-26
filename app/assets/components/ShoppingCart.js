@@ -1,15 +1,23 @@
 import React, {Component, Fragment} from "react";
 import { Popover, Transition } from '@headlessui/react'
 import ShoppingCartItem from "./ShoppingCartItem";
+import {Link} from "react-router-dom";
 
 class ShoppingCart extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {numberCart: props.numberCart }
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.numberCart !== this.props.numberCart) {
+            this.setState({numberCart: this.props.numberCart});
+        }
     }
 
     getProduct(uuid) {
-        return this.props.products.find((product) => product.uuid === uuid);
+        return this.props._products.find((product) => product.uuid === uuid);
     }
 
     render() {
@@ -54,7 +62,7 @@ class ShoppingCart extends Component {
                                             {this.props.numberCart > 0 ? (
                                                 <>
                                                     {this.props.productsCart.map((product) =>
-                                                        (<ShoppingCartItem product={this.getProduct(product.uuid)} quantity={product.quantity} />)
+                                                        (<ShoppingCartItem product={this.getProduct(product.uuid)} quantity={product.quantity} key={product.uuid} />)
                                                     )}
                                                 </>
                                             ) : (
@@ -62,10 +70,10 @@ class ShoppingCart extends Component {
                                             )}
                                         </div>
                                         <div className="p-4 justify-center flex bg-white">
-                                            <button className="text-base hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer
+                                            <Link to={'/cart'} className="text-base hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer
                                             hover:bg-green-700 hover:text-green-100 bg-green-100 text-green-700 border duration-200 ease-in-out border-green-600 transition">
-                                                Panier
-                                            </button>
+                                                Voir mon panier
+                                            </Link>
                                         </div>
                                     </div>
                                 </Popover.Panel>

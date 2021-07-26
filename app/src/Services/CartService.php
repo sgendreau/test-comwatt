@@ -32,11 +32,14 @@ class CartService
 
     }
 
-    public function soustractToCart(string $product, int $quantity): void
+    public function updateToCart(string $product, int $quantity): void
     {
-        $sessionProduct = $this->session->get($product, 0);
-        $this->session->set($product, max($sessionProduct-$quantity, 0));
+        $this->session->set($product, $quantity);
+    }
 
+    public function deleteToCart(string $product): void
+    {
+        $this->session->remove($product);
     }
 
     public function emptyCart(): void

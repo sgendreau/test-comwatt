@@ -1,4 +1,4 @@
-import {ADD_CART, GET_ALL_PRODUCTS, GET_CART, GET_NUMBER_CART, GET_PRODUCT} from "../actions";
+import {ADD_CART, DELETE_CART, GET_ALL_PRODUCTS, GET_CART, GET_NUMBER_CART, UPDATE_CART} from "../actions";
 import {combineReducers} from "redux";
 
 const initApp = {
@@ -28,9 +28,22 @@ function todoApp(state = initApp, action) {
             return {
                 ...state,
             }
+        case ADD_CART:
+            return {
+                ...state,
+            }
+        case UPDATE_CART:
+            return {
+                ...state,
+            }
+        case DELETE_CART:
+            return {
+                ...state,
+            }
         default:
-            return state;
-
+            return {
+                ...state
+            };
     }
 }
 

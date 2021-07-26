@@ -14,13 +14,13 @@ import './bootstrap';
 import React from 'react';
 import ReactDom from 'react-dom';
 import {BrowserRouter as Router } from 'react-router-dom';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import store from './components/stores';
 import Home from "./components/Home";
 
 
 ReactDom.render((
-    <Provider store = {store}>
+    <Provider store={store}>
         <Router><Home /></Router>
     </Provider>
     ),

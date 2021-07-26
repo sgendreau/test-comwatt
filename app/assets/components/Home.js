@@ -1,12 +1,19 @@
 import React, {Component} from 'react';
-import {Route, Switch, Redirect} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 import Nav from "./Nav";
 import NavItem from "./NavItem";
 import Products from "./Products";
 import Product from "./Product";
 import ShoppingCart from "./ShoppingCart";
+import Cart from "./Cart";
 import { connect } from "react-redux";
-import {actionFetchAllProductsRequest, actionFetchCartRequest} from "./actions";
+import {
+    actionAddCartRequest,
+    actionUpdateCartRequest,
+    actionDeleteCartRequest,
+    actionFetchAllProductsRequest,
+    actionFetchCartRequest
+} from "./actions";
 
 class Home extends Component {
 
@@ -19,22 +26,17 @@ class Home extends Component {
         this.props.actionFetchCartRequest();
     }
 
-
     render() {
         return(
             <div>
                 <Nav title={'rEARding'}>
-                    <ShoppingCart
-                        numberCart={this.props.numberCart}
-                        productsCart={this.props.productsCart}
-                        products={this.props._products}
-                    />
+                    <ShoppingCart {...this.props} />
                     <NavItem link={'/'} text={'Produits'} />
                 </Nav>
                 <Switch>
-                    <Redirect exact from={"/produits"} to={"/"} />
-                    <Route exact path={"/"} component={Products} />
-                    <Route path="/produit/:uuid" component={Product} />
+                    <Route exact path={"/"} component={(props) => <Products {...this.props} {...props} />} />
+                    <Route exact path="/product/:uuid" component={(props) => <Product {...this.props} {...props} />} />
+                    <Route exact path="/cart" component={(props) => <Cart {...this.props} {...props} />} />
                 </Switch>
             </div>
         )
@@ -51,8 +53,11 @@ const mapStateToProps = state => {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actionFetchAllProductsRequest:() => dispatch(actionFetchAllProductsRequest()),
-        actionFetchCartRequest:() => dispatch(actionFetchCartRequest())
+        actionFetchAllProductsRequest: () => dispatch(actionFetchAllProductsRequest()),
+        actionFetchCartRequest: () => dispatch(actionFetchCartRequest()),
+        AddCart: (product) => dispatch(actionAddCartRequest(product)),
+        UpdateCart: (product) => dispatch(actionUpdateCartRequest(product)),
+        DeleteCart: (product) => dispatch(actionDeleteCartRequest(product)),
     }
 }
 
