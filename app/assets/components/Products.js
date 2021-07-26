@@ -2,34 +2,15 @@ import React, {Component} from "react";
 import ProductItem from "./ProductItem";
 
 class Products extends Component {
-    constructor() {
-        super();
-        this.state = { produits: [], loading: true, value: '' };
-    }
-
-    componentDidMount() {
-        this.getProduits();
-    }
-
-    getProduits() {
-        fetch('http://localhost:3001/api/products', {method: 'GET'})
-            .then(response => response.json())
-            .catch(err => {
-                console.log(err);
-            })
-            .then(
-                produits => {
-                    this.setState({ ...this.state, produits: produits, loading: false })
-                }
-            )
+    constructor(props) {
+        super(props);
+        this.state = { value: '' };
     }
 
     changeSearch(event) {
         this.setState({...this.state, value: event.target.value});
     }
     render() {
-        const loading = this.state.loading;
-
         return (
             <div className="w-full">
                 <div className="flex flex-row py-4">
@@ -47,21 +28,15 @@ class Products extends Component {
                         className="text-sm italic text-gray-500 text-lg ml-3 w-full bg-gray-100 focus:outline-none"
                     />
                 </div>
-                {loading ? (
-                    <div>
-                        Chargement...
+                <div className="container mx-auto pb-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                        {this.props._products.filter(
+                            item => item['title'].toLowerCase().includes(this.state.value.toLowerCase())
+                        ).map((product) => (
+                            <ProductItem product={product} key={product.uuid} {...this.props} />
+                        ))}
                     </div>
-                ) : (
-                        <div className="container mx-auto pb-5">
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                                {this.state.produits.filter(
-                                    item => item['title'].toLowerCase().includes(this.state.value.toLowerCase())
-                                ).map((produit) => (
-                                    <ProductItem produit={produit} key={produit.uuid} />
-                                ))}
-                            </div>
-                        </div>
-                )}
+                </div>
             </div>
         )
     }

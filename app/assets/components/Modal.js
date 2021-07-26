@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import Ranking from "./Ranking";
 import {formatPrice} from "../utils";
 
-export default function Modal({ button, produit }) {
+export default function Modal({ button, product, ...props }) {
     let [isOpen, setIsOpen] = useState(false);
     let [nbProduct, setNbProduct] = useState(1);
 
@@ -17,21 +17,14 @@ export default function Modal({ button, produit }) {
     async function addToCart() {
         const data = new FormData();
         data.append('json', JSON.stringify({
-            product: produit.uuid,
+            product: product.uuid,
             quantity: nbProduct
         }));
-        const request = new Request('http://localhost:3001/api/cart/add', {
-            method: 'POST',
-            body: data,
-            headers: new Headers()
-        })
-        await fetch(request)
-        .then(response => response.json())
-        .then(
-            data => {
-                console.log(data);
-            }
-        )
+
+        props.AddCart(data).then(() => {
+            props.actionFetchCartRequest();
+        });
+
         setIsOpen(false);
     }
 
@@ -82,22 +75,22 @@ export default function Modal({ button, produit }) {
                                   as="h3"
                                   className="text-lg font-medium leading-6 text-gray-900"
                               >
-                                  {produit.title}
+                                  {product.title}
                               </Dialog.Title>
                               <div className="mt-2 flex flex-wrap">
                                   <img src="https://unsplash.com/photos/f13HuYnEmxQ/download?force=true"
                                        className="w-1/3 object-cover object-center rounded border border-gray-200"/>
                                   <div className="w-1/2 ml-3 text-sm">
                                       <div className="flex flex-wrap ">
-                                          <Ranking ranking={produit.ranking} />
-                                          <div className="ml-auto flex text-lg">{produit.price.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})} €</div>
+                                          <Ranking ranking={product.ranking} />
+                                          <div className="ml-auto flex text-lg">{product.price.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})} €</div>
                                       </div>
                                       <div className="flex mb-4">
                                           <span className="flex ml-2 pl-3=2 py-2">
-                                            <span className="text-gray-600 ml-1">{produit.genres} de {produit.year}</span>
+                                            <span className="text-gray-600 ml-1">{product.genres} de {product.year}</span>
                                         </span>
                                           <span className="flex ml-2 pl-2 py-2 border-l-2 border-gray-200">
-                                                    <span className="text-gray-600 ml-1">{produit.product_type}</span>
+                                                    <span className="text-gray-600 ml-1">{product.product_type}</span>
                                               </span>
                                       </div>
                                       <div className="flex flex-wrap">
@@ -120,7 +113,7 @@ export default function Modal({ button, produit }) {
                               <div className="mt-4 flex flex-row">
                                   <div className="flex w-1/2 items-center">
                                       <span className="mr-auto text-md">
-                                          Total : {formatPrice(produit.price * nbProduct)} €
+                                          Total : {formatPrice(product.price * nbProduct)} €
                                       </span>
                                   </div>
                                   <button
@@ -138,6 +131,4 @@ export default function Modal({ button, produit }) {
           </Transition>
       </>
     );
-
-
 }
