@@ -23,6 +23,12 @@
                           class="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-2">
                     Retour au Front
                     </a>
+                    {% if app.user %}
+                        <a href="{{ path('app_logout') }}"
+                              class="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-2">
+                        Déconnexion
+                        </a>
+                    {% endif %}
                 </div>
             </nav>
             <div class="w-full">
