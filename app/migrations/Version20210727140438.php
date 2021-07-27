@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210727101601 extends AbstractMigration
+final class Version20210727140438 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,6 +20,7 @@ final class Version20210727101601 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('CREATE SEQUENCE "user_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE pays (id SERIAL NOT NULL, alpha3 VARCHAR(3) NOT NULL, nom_fr VARCHAR(100) NOT NULL, nom_uk VARCHAR(100) NOT NULL, uuid UUID NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_349F3CAEC065E6E4 ON pays (alpha3)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_349F3CAED17F50A6 ON pays (uuid)');
@@ -40,6 +41,8 @@ final class Version20210727101601 extends AbstractMigration
         $this->addSql('CREATE TABLE ref_type_produit (id SERIAL NOT NULL, uuid UUID NOT NULL, libelle VARCHAR(255) DEFAULT NULL, slug VARCHAR(50) DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_E5704521D17F50A6 ON ref_type_produit (uuid)');
         $this->addSql('COMMENT ON COLUMN ref_type_produit.uuid IS \'(DC2Type:uuid)\'');
+        $this->addSql('CREATE TABLE "user" (id INT NOT NULL, username VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649F85E0677 ON "user" (username)');
         $this->addSql('ALTER TABLE produit ADD CONSTRAINT FK_29A5EC275373C966 FOREIGN KEY (country) REFERENCES pays (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE produit ADD CONSTRAINT FK_29A5EC2718483D2 FOREIGN KEY (type_produit) REFERENCES ref_type_produit (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE produit_ref_type_genre ADD CONSTRAINT FK_EADCFA64F347EFB FOREIGN KEY (produit_id) REFERENCES produit (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -56,10 +59,12 @@ final class Version20210727101601 extends AbstractMigration
         $this->addSql('ALTER TABLE produit_ref_type_genre DROP CONSTRAINT FK_EADCFA64AB39A383');
         $this->addSql('ALTER TABLE ref_type_genre DROP CONSTRAINT FK_8B995B11C71958BE');
         $this->addSql('ALTER TABLE produit DROP CONSTRAINT FK_29A5EC2718483D2');
+        $this->addSql('DROP SEQUENCE "user_id_seq" CASCADE');
         $this->addSql('DROP TABLE pays');
         $this->addSql('DROP TABLE produit');
         $this->addSql('DROP TABLE produit_ref_type_genre');
         $this->addSql('DROP TABLE ref_type_genre');
         $this->addSql('DROP TABLE ref_type_produit');
+        $this->addSql('DROP TABLE "user"');
     }
 }
