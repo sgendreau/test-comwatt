@@ -50,7 +50,8 @@ class Produit
     private $genres;
 
     /**
-     * @ORM\ManyToMany(targetEntity=RefTypeProduit::class, inversedBy="produits")
+     * @ORM\ManyToOne(targetEntity=RefTypeProduit::class, inversedBy="produits")
+     * @ORM\JoinColumn(nullable=false, name="type_produit")
      */
     private $typeProduit;
 
@@ -73,7 +74,6 @@ class Produit
     {
         $this->uuid = Uuid::v4();
         $this->genres = new ArrayCollection();
-        $this->typeProduit = new ArrayCollection();
     }
 
     public function getTitre(): ?string
@@ -165,33 +165,16 @@ class Produit
         return implode( ' ', $this->getGenres()->map(fn ($genre) => $genre->getLibelle())->toArray());
     }
 
-    /**
-     * @return Collection|RefTypeProduit[]
-     */
-    public function getTypeProduit(): Collection
+    public function getTypeProduit(): ?RefTypeProduit
     {
         return $this->typeProduit;
     }
 
-    public function addTypeProduit(RefTypeProduit $typeProduit): self
+    public function setTypeProduit(RefTypeProduit $typeProduit): self
     {
-        if (!$this->typeProduit->contains($typeProduit)) {
-            $this->typeProduit[] = $typeProduit;
-        }
+        $this->typeProduit = $typeProduit;
 
         return $this;
-    }
-
-    public function removeTypeProduit(RefTypeProduit $typeProduit): self
-    {
-        $this->typeProduit->removeElement($typeProduit);
-
-        return $this;
-    }
-
-    public function getTypeProduitLibelle(): string
-    {
-        return implode(' ', $this->getTypeProduit()->map(fn ($type) => $type->getLibelle())->toArray());
     }
 
     public function getPrix(): ?float

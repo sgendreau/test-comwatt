@@ -31,7 +31,6 @@ class Home extends Component {
             <div>
                 <Nav title={'rEARding'}>
                     <ShoppingCart {...this.props} />
-                    <NavItem link={'/'} text={'Produits'} />
                 </Nav>
                 <Switch>
                     <Route exact path={"/"} component={(props) => <Products {...this.props} {...props} />} />

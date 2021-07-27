@@ -20,6 +20,8 @@ use Symfony\Component\Uid\Uuid;
 class Pays
 {
 
+    const FRANCE_UUID = 'd45a35d0-9e55-4f69-bc75-0c9bc12c67ce';
+
     use IdTrait;
     use TimestampableTrait;
 

@@ -1,0 +1,11 @@
+input::placeholder {
+  font-style: italic;
+}
+
+.input-w-full {
+  @apply w-full border border-gray-200 rounded p-1 pl-2 bg-gray-100 focus:border-gray-500 focus:outline-none;
+}
+
+.input-w-full:focus {
+  border-width: 2px;
+}

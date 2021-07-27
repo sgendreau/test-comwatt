@@ -3,8 +3,30 @@
 namespace App\Services;
 
 use App\Entity\Produit;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ProductService {
+
+    public function __construct(protected EntityManagerInterface $entityManager) {
+
+    }
+
+    public function create(Produit $product): void
+    {
+        $this->entityManager->persist($product);
+        $this->update();
+    }
+
+    public function update(): void
+    {
+        $this->entityManager->flush();
+    }
+
+    public function delete(Produit $product): void
+    {
+        $this->entityManager->remove($product);
+        $this->update();
+    }
 
     public function transformProduct(Produit $produit): array
     {
@@ -19,7 +41,7 @@ class ProductService {
             'genres' => $produit->getGenresLibelle(),
             'ranking' => $produit->getNote(),
             'price' => $produit->getPrix(),
-            'product_type' => $produit->getTypeProduitLibelle()
+            'product_type' => $produit->getTypeProduit()->getLibelle()
         ];
     }
 
