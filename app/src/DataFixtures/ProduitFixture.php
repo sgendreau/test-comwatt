@@ -37,7 +37,7 @@ class ProduitFixture extends Fixture
             }
             $produit->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non nunc ut neque facilisis laoreet. Mauris nulla leo, ultricies vel euismod eget, pulvinar nec risus. Nam cursus suscipit augue in dignissim. Nunc fermentum mi sit amet vestibulum laoreet. Proin feugiat ex eu nisi porttitor aliquam. Sed sapien nunc, iaculis sit amet odio non, lobortis blandit nisl. Donec id arcu at sem aliquet aliquet eget feugiat eros. Curabitur et enim et quam lacinia porta vitae ut augue. Nunc aliquet, turpis nec pulvinar consectetur, libero sem aliquam nunc, sit amet interdum dui nunc ut nunc.');
             $produit->addGenre($genres[rand(0, count($genres)-1)]);
-            $produit->addTypeProduit($types[rand(0, count($types)-1)]);
+            $produit->setTypeProduit($types[rand(0, count($types)-1)]);
 
             $objectManager->persist($produit);
         }

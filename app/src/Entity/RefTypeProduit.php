@@ -21,7 +21,7 @@ class RefTypeProduit
     use TimestampableTrait;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Produit::class, mappedBy="typeProduit")
+     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="typeProduit")
      */
     private $produits;
 
@@ -43,7 +43,7 @@ class RefTypeProduit
     {
         if (!$this->produits->contains($produit)) {
             $this->produits[] = $produit;
-            $produit->addTypeProduit($this);
+            $produit->setTypeProduit($this);
         }
 
         return $this;

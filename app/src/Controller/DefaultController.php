@@ -8,10 +8,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
-    #[Route('/{reactRouting?}', name: 'react', requirements: ['reactRouting' => '.+'], priority: -1)]
+    #[Route('/{reactRouting?}', name: 'react', requirements: ['reactRouting' => '(?!admin).+'], priority: -1)]
     public function index(): Response
     {
-        return $this->render('base.html.twig', [
+        return $this->render('base_front.html.twig', [
         ]);
     }
 }

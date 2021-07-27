@@ -1,0 +1,46 @@
+{% extends 'base_back.html.twig' %}
+
+{% block title %}Administration rEARding{% endblock %}
+
+{% block body %}
+    <div class="grid grid-cols-2">
+        <h1 class="text-3xl px-5 py-10">Liste des produits</h1>
+        <div class="text-right">
+            <a href="{{ path('admin_add') }}"
+               class="inline-block border border-gray-200 bg-gray-200 text-gray-700 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-300 focus:outline-none focus:shadow-outline"
+            >Nouveau produit</a>
+        </div>
+    </div>
+    <table class="table-auto border-collapse w-full">
+        <thead>
+            <tr class="text-left">
+                <th class="px-4 py-2 bg-gray-200">Titre</th>
+                <th class="px-4 py-2 bg-gray-200">Genres</th>
+                <th class="px-4 py-2 bg-gray-200">Type de produit</th>
+                <th class="px-4 py-2 bg-gray-200">Prix</th>
+                <th class="px-4 py-2 bg-gray-200">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+                <tr class="border-b border-gray-200 py-10 hover:bg-gray-100">
+                    <td class="p-4 font-bold">{{ product.titre|upper }}</td>
+                    <td class="p-4">{{ product.getGenresLibelle }}</td>
+                    <td class="p-4">{{ product.typeProduit.libelle }}</td>
+                    <td class="p-4">{{ product.prix|number_format(2, ',', ' ') }} €</td>
+                    <td class="p-4">
+                        <a href="{{ path('admin_update', {'uuidProduct': product.uuid}) }}"
+                           class="border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline"
+                        >Editer</a>
+                        <a href="{{ path('admin_delete', {'uuidProduct': product.uuid}) }}"
+                           class="border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline"
+                        >Supprimer</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td>Aucun produit</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
